@@ -1824,7 +1824,7 @@
                   <span class="orn-line"></span>
                 </div>
                 <div class="nikkah-label">Nikkah Ceremony</div>
-                <div class="nikkah-time">Twelve O'Clock</div>
+                <div class="nikkah-time">11:30 AM</div>
                 <div class="nikkah-ornament">
                   <span class="orn-line"></span>
                   <span class="orn-diamond">◆</span>
@@ -1890,21 +1890,12 @@
         document.getElementById("enter-btn").classList.add("active");
       }, 3500); // allow click after cover animations mostly finish
 
-      document.getElementById("enter-btn").addEventListener("click", () => {
-        const cover = document.getElementById("cover");
-        cover.style.opacity = "0";
-        setTimeout(() => {
-          cover.style.display = "none";
-          const mainScene = document.getElementById("main-invite");
-          mainScene.style.display = "flex";
-          // Trigger card entrance animations by adding class
-          document.getElementById("card").classList.add("show-card");
-        }, 800);
-      });
-
+      document
+        .getElementById("enter-btn")
+        .addEventListener("click", openInvitation);
       /* ── COUNTDOWN ── */
       // Updated wedding date to July 19, 2026
-      const weddingDate = new Date("2026-07-18T15:00:00");
+      const weddingDate = new Date("2026-07-18T11:30:00");
 
       function pad(n, w = 2) {
         return String(n).padStart(w, "0");
@@ -1957,8 +1948,8 @@
           "PRODID:-//Fathima&Nihad Wedding//EN",
           "BEGIN:VEVENT",
           "UID:fathima-nihad-wedding-2026@savethedate",
-          "DTSTART:20260718T150000",
-          "DTEND:20260718T220000",
+          "DTSTART:20260718T113000",
+          "DTEND:20260718T133000",
           "SUMMARY:Wedding of Fathima & Nihad",
           "DESCRIPTION:Please join us as we celebrate the wedding of Fathima & Nihad.",
           "LOCATION:Madavoor Palace",
@@ -2064,6 +2055,29 @@
           passive: true,
         });
       });
+
+      let invitationEntered = false;
+
+      function openInvitation() {
+        if (invitationEntered) return;
+        invitationEntered = true;
+
+        const cover = document.getElementById("cover");
+        cover.style.opacity = "0";
+
+        setTimeout(() => {
+          cover.style.display = "none";
+
+          const mainScene = document.getElementById("main-invite");
+          mainScene.style.display = "flex";
+
+          document.getElementById("card").classList.add("show-card");
+        }, 800);
+      }
+
+      setTimeout(() => {
+        openInvitation();
+      }, 8000);
     </script>
   </body>
 </html>
