@@ -1980,38 +1980,17 @@
           a.click();
           URL.revokeObjectURL(url);
         });
+
       document.getElementById("enter-btn").addEventListener("click", () => {
         setTimeout(() => {
-          const wrap = document.querySelector(".card-scroll-wrap");
-          const secondSection = document.querySelectorAll(".card-section")[1];
+          const sections = document.querySelectorAll(".card-section");
 
-          if (!wrap || !secondSection) return;
-
-          const target = secondSection.offsetTop;
-          const start = wrap.scrollTop;
-          const distance = target - start;
-          const duration = 5000; // 5 second elegant scroll
-
-          let startTime = null;
-
-          function easeInOutCubic(t) {
-            return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+          if (sections.length > 1) {
+            sections[1].scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
           }
-
-          function animate(currentTime) {
-            if (!startTime) startTime = currentTime;
-
-            const elapsed = currentTime - startTime;
-            const progress = Math.min(elapsed / duration, 1);
-
-            wrap.scrollTop = start + distance * easeInOutCubic(progress);
-
-            if (progress < 1) {
-              requestAnimationFrame(animate);
-            }
-          }
-
-          requestAnimationFrame(animate);
         }, 5000);
       });
 
@@ -2098,7 +2077,7 @@
 
       setTimeout(() => {
         openInvitation();
-      }, 8000);
+      }, 5000);
     </script>
   </body>
 </html>
