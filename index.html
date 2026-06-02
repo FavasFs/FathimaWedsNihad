@@ -10,6 +10,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
+      href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <link
       href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=Cinzel:wght@400;500&display=swap"
       rel="stylesheet"
     />
@@ -54,6 +58,54 @@
         overflow: hidden; /* Prevent body scroll */
       }
 
+      .bismillah-wrap {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 18px;
+        opacity: 0;
+        animation: fadeIn 0.8s ease 0.1s forwards;
+      }
+
+      .bismillah-text {
+        font-family: "Amiri", serif;
+        font-size: 22px;
+        color: var(--gold-dk);
+        direction: rtl;
+        letter-spacing: 0.03em;
+        line-height: 1.6;
+        background: linear-gradient(
+          90deg,
+          var(--gold-dk),
+          var(--gold-lt),
+          var(--gold-dk)
+        );
+        background-size: 200% auto;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        animation:
+          bismillahWrite 3.5s ease 0.3s forwards,
+          shimmerSlide 3s linear 3.8s infinite;
+        clip-path: inset(0 100% 0 0);
+      }
+
+      @keyframes bismillahWrite {
+        0% {
+          clip-path: inset(0 100% 0 0);
+        }
+        100% {
+          clip-path: inset(0 0% 0 0);
+        }
+      }
+
+      @keyframes shimmerSlide {
+        0% {
+          background-position: 200% center;
+        }
+        100% {
+          background-position: 0% center;
+        }
+      }
       /* ── COVER SCENE ── */
       .cover-scene {
         position: fixed;
@@ -137,22 +189,50 @@
 
       .cover-names-below {
         font-family: "Cinzel", serif;
-        font-size: 28px;
-        letter-spacing: 0.05em;
+        font-size: 30px;
+        letter-spacing: 0.08em;
         color: var(--ink);
         opacity: 0;
         animation: heartFadeIn 1.2s ease 1.5s forwards;
         white-space: nowrap;
-        text-shadow: 0 2px 6px rgba(200, 169, 110, 0.25);
         text-align: center;
+        text-shadow:
+          0 2px 12px rgba(200, 169, 110, 0.55),
+          0 0 30px rgba(200, 169, 110, 0.25);
+        animation: coverNamesReveal 1.2s ease 1.5s forwards;
+      }
+      @keyframes coverNamesReveal {
+        0% {
+          opacity: 0;
+          transform: translateY(10px) scale(0.97);
+          letter-spacing: 0.04em;
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+          letter-spacing: 0.08em;
+        }
       }
 
       .cover-names-below .amp {
         font-family: "Great Vibes", cursive;
         color: var(--gold);
-        font-size: 38px;
-        margin: 0 4px;
+        font-size: 48px;
+        margin: 0 6px;
         vertical-align: middle;
+        text-shadow: 0 0 20px rgba(200, 169, 110, 0.6);
+        animation: ampCoverGlow 2.5s ease-in-out 2.8s infinite;
+      }
+      @keyframes ampCoverGlow {
+        0%,
+        100% {
+          text-shadow: 0 0 20px rgba(200, 169, 110, 0.6);
+          color: var(--gold);
+        }
+        50% {
+          text-shadow: 0 0 35px rgba(200, 169, 110, 0.9);
+          color: var(--gold-lt);
+        }
       }
 
       .enter-btn-wrap {
@@ -917,7 +997,7 @@
 
       .nikkah-label {
         font-family: "Great Vibes", cursive;
-        font-size: 28px;
+        font-size: 20px;
         color: var(--gold-dk);
         line-height: 1.1;
         animation: nikkahGlow 3s ease-in-out infinite;
@@ -948,6 +1028,11 @@
     <!-- ── COVER SCENE ── -->
     <div id="cover" class="cover-scene">
       <div class="cover-content">
+        <!-- <div class="bismillah-wrap">
+          <span class="bismillah-text"
+            >بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</span
+          >
+        </div> -->
         <div class="heart-container">
           <svg viewBox="0 0 100 100" width="180" height="180">
             <defs>
@@ -1738,7 +1823,7 @@
                   <span class="orn-line"></span>
                 </div>
                 <div class="nikkah-label">Nikkah Ceremony</div>
-                <div class="nikkah-time">Twelve O'Clock at Noon</div>
+                <div class="nikkah-time">Twelve O'Clock</div>
                 <div class="nikkah-ornament">
                   <span class="orn-line"></span>
                   <span class="orn-diamond">◆</span>
@@ -1905,40 +1990,21 @@
         });
 
       /* ── AUTO-SCROLL after 5s inactivity ── */
-      let userTouched = false;
-      let autoScrollTimeout;
-      let autoScrollInterval;
-
-      function beginAutoScroll() {
-        if (userTouched) return;
-        const wrap = document.querySelector(".card-scroll-wrap");
-        if (!wrap) return;
-        autoScrollInterval = setInterval(() => {
-          const atBottom =
-            wrap.scrollTop + wrap.clientHeight >= wrap.scrollHeight - 2;
-          if (atBottom) {
-            clearInterval(autoScrollInterval);
-            return;
-          }
-          wrap.scrollBy({ top: 1.2, behavior: "auto" });
-        }, 20);
-      }
-
-      ["touchstart", "mousedown", "wheel", "keydown"].forEach((evt) => {
-        document.addEventListener(
-          evt,
-          () => {
-            userTouched = true;
-            clearTimeout(autoScrollTimeout);
-            clearInterval(autoScrollInterval);
-          },
-          { once: true },
-        );
-      });
-
-      // Only start auto-scroll once the card is visible
+      /* ── AUTO-SCROLL after 5s always ── */
       document.getElementById("enter-btn").addEventListener("click", () => {
-        autoScrollTimeout = setTimeout(beginAutoScroll, 5000);
+        setTimeout(() => {
+          const wrap = document.querySelector(".card-scroll-wrap");
+          if (!wrap) return;
+          const interval = setInterval(() => {
+            const atBottom =
+              wrap.scrollTop + wrap.clientHeight >= wrap.scrollHeight - 2;
+            if (atBottom) {
+              clearInterval(interval);
+              return;
+            }
+            wrap.scrollBy({ top: 1.2, behavior: "auto" });
+          }, 20);
+        }, 5000);
       });
 
       /* ── RIPPLE SPARKS ── */
