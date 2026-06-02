@@ -1992,24 +1992,24 @@
 
       /* ── AUTO-SCROLL after 5s inactivity ── */
       /* ── AUTO-SCROLL after 5s always ── */
-      document.getElementById("enter-btn").addEventListener("click", () => {
-        setTimeout(() => {
-          const wrap = document.querySelector(".card-scroll-wrap");
-          if (!wrap) return;
-          const interval = setInterval(() => {
-            const atBottom =
-              wrap.scrollTop + wrap.clientHeight >= wrap.scrollHeight - 2;
-            if (atBottom) {
-              clearInterval(interval);
-              return;
-            }
-            wrap.scrollTop = Math.min(
-              wrap.scrollTop + 20,
-              wrap.scrollHeight - wrap.clientHeight,
-            );
-          }, 20);
-        }, 5000);
-      });
+      // document.getElementById("enter-btn").addEventListener("click", () => {
+      //   setTimeout(() => {
+      //     const wrap = document.querySelector(".card-scroll-wrap");
+      //     if (!wrap) return;
+      //     const interval = setInterval(() => {
+      //       const atBottom =
+      //         wrap.scrollTop + wrap.clientHeight >= wrap.scrollHeight - 2;
+      //       if (atBottom) {
+      //         clearInterval(interval);
+      //         return;
+      //       }
+      //       wrap.scrollTop = Math.min(
+      //         wrap.scrollTop + 20,
+      //         wrap.scrollHeight - wrap.clientHeight,
+      //       );
+      //     }, 20);
+      //   }, 5000);
+      // });
 
       /* ── RIPPLE SPARKS ── */
       function spawnSparks(btn) {
