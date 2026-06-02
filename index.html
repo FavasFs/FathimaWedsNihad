@@ -917,7 +917,7 @@
         }
         .card {
           margin: auto;
-          height: calc(100vh - 24px);
+          height: calc(100dvh - 24px);
           max-height: none;
         }
         .card-section {
@@ -1990,26 +1990,18 @@
           URL.revokeObjectURL(url);
         });
 
-      /* ── AUTO-SCROLL after 5s inactivity ── */
-      /* ── AUTO-SCROLL after 5s always ── */
-      // document.getElementById("enter-btn").addEventListener("click", () => {
-      //   setTimeout(() => {
-      //     const wrap = document.querySelector(".card-scroll-wrap");
-      //     if (!wrap) return;
-      //     const interval = setInterval(() => {
-      //       const atBottom =
-      //         wrap.scrollTop + wrap.clientHeight >= wrap.scrollHeight - 2;
-      //       if (atBottom) {
-      //         clearInterval(interval);
-      //         return;
-      //       }
-      //       wrap.scrollTop = Math.min(
-      //         wrap.scrollTop + 20,
-      //         wrap.scrollHeight - wrap.clientHeight,
-      //       );
-      //     }, 20);
-      //   }, 5000);
-      // });
+      document.getElementById("enter-btn").addEventListener("click", () => {
+        setTimeout(() => {
+          const sections = document.querySelectorAll(".card-section");
+
+          if (sections.length > 1) {
+            sections[1].scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+          }
+        }, 5000);
+      });
 
       /* ── RIPPLE SPARKS ── */
       function spawnSparks(btn) {
