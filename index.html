@@ -333,6 +333,8 @@
         /* Hide scrollbar */
         -ms-overflow-style: none;
         scrollbar-width: none;
+        overscroll-behavior: contain;
+        -webkit-overflow-scrolling: touch;
       }
       .card-scroll-wrap::-webkit-scrollbar {
         display: none;
@@ -1905,6 +1907,12 @@
       document
         .getElementById("enter-btn")
         .addEventListener("click", openInvitation);
+
+      document.getElementById("enter-btn").addEventListener("click", () => {
+        setTimeout(() => {
+          smoothScrollToSection();
+        }, 5000);
+      });
       /* ── COUNTDOWN ── */
       // Updated wedding date to July 19, 2026
       const weddingDate = new Date("2026-07-18T11:30:00");
@@ -2069,6 +2077,39 @@
       });
 
       let invitationEntered = false;
+
+      function smoothScrollToSection() {
+        const scrollWrap = document.querySelector(".card-scroll-wrap");
+
+        if (!scrollWrap) return;
+
+        const startPosition = scrollWrap.scrollTop;
+        const targetPosition = scrollWrap.clientHeight; // second section
+        const distance = targetPosition - startPosition;
+
+        const duration = 4000; // 4 seconds
+        let startTime = null;
+
+        function easeInOutQuad(t) {
+          return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+        }
+
+        function animation(currentTime) {
+          if (!startTime) startTime = currentTime;
+
+          const elapsed = currentTime - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+
+          scrollWrap.scrollTop =
+            startPosition + distance * easeInOutQuad(progress);
+
+          if (progress < 1) {
+            requestAnimationFrame(animation);
+          }
+        }
+
+        requestAnimationFrame(animation);
+      }
 
       function openInvitation() {
         if (invitationEntered) return;
