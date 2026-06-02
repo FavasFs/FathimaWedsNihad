@@ -317,6 +317,7 @@
         overflow-y: auto;
         scroll-snap-type: y mandatory;
         scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch;
         /* Hide scrollbar */
         -ms-overflow-style: none;
         scrollbar-width: none;
@@ -2002,7 +2003,10 @@
               clearInterval(interval);
               return;
             }
-            wrap.scrollBy({ top: 1.2, behavior: "auto" });
+            wrap.scrollTop = Math.min(
+              wrap.scrollTop + 20,
+              wrap.scrollHeight - wrap.clientHeight,
+            );
           }, 20);
         }, 5000);
       });
